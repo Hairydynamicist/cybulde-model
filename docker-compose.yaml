@@ -17,7 +17,7 @@ x-app-template: &APP_TEMPLATE
   env_file:
     - .envs/.postgres
     - .envs/.mlflow-common
-#    - .envs/.mlflow-dev
+    - .envs/.mlflow-dev
   volumes:
     - ./:/app/
     - mlflow-artifact-store:/mlflow-artifact-store
@@ -49,9 +49,11 @@ services:
       - 8080:8080
       - 8888:8888
       - 8001:8001
+    profiles:
+      - dev
 
 
-app-prod:
+  app-prod:
     <<: *APP_TEMPLATE
     container_name: cybulde-model-prod-container
     env_file:
