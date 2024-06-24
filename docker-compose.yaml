@@ -5,13 +5,13 @@ volumes:
 
 x-app-template: &APP_TEMPLATE
   user: "${USER_ID:-1000}"
-  hostname: "${HOST_NAME:-hairydynamicist}"
+  hostname: "${HOST_NAME:-emkademy}"
   image: cybulde-model
   build:
     context: .
     dockerfile: ./docker/Dockerfile
     args:
-      USER_NAME: "${USER_NAME:-hairydynamicist}"
+      USER_NAME: "${USER_NAME:-kyuksel}"
       USER_ID: "${USER_ID:-1000}"
   env_file:
     - .envs/.postgres
@@ -23,7 +23,6 @@ x-app-template: &APP_TEMPLATE
     - ~/.config/gcloud/:/home/${USER_NAME}/.config/gcloud
   ipc: host
   init: true
-
 
 services:
   mlflow-db:
@@ -48,9 +47,15 @@ services:
       - 8080:8080
       - 8888:8888
       - 8001:8001
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     profiles:
       - dev
-
 
   app-prod:
     <<: *APP_TEMPLATE

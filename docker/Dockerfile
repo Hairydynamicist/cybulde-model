@@ -1,9 +1,9 @@
-FROM python:3.11-slim
+FROM python:3.10-slim
 
 ARG USER_ID
 ARG USER_NAME
 ENV HOME=/home/${USER_NAME} \
-    VIRTUAL_ENV=/home/${USER_NAME}/anaconda3/envs/dvc-env
+    VIRTUAL_ENV=/home/${USER_NAME}/venv
 ENV \
   PYTHONUNBUFFERED=1 \
   DEBIAN_FRONTEND=noninteractive \
@@ -28,9 +28,6 @@ RUN addgroup --system --gid ${USER_ID} ${USER_NAME} \
 RUN chown -R ${USER_NAME}:${USER_NAME} ${HOME}
 RUN mkdir -p /app /mlflow-artifact-store "${HOME}/.local/share" && chown -R ${USER_NAME}:${USER_NAME} /app /tmp /mlflow-artifact-store "${HOME}/.local"
 
-RUN chown -R ${USER_NAME}:${USER_NAME} ${HOME}
-RUN mkdir -p /app && chown -R ${USER_NAME}:${USER_NAME} /app /tmp
-
 RUN curl -sSL https://install.python-poetry.org | python3 - --version 1.7.1
 
 USER ${USER_NAME}
@@ -39,7 +36,7 @@ COPY pyproject.toml *.lock /app/
 WORKDIR /app
 
 RUN poetry config virtualenvs.create false \
-    && python3.11 -m venv ${VIRTUAL_ENV} \
+    && python3.10 -m venv ${VIRTUAL_ENV} \
     && pip install --upgrade pip setuptools \
     && poetry install && cp poetry.lock ${BUILD_POETRY_LOCK} \
     && rm -rf ${HOME}/.cache/*

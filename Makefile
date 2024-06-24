@@ -13,7 +13,7 @@ USER_ID = $(shell id -u)
 HOST_NAME = $(shell hostname)
 
 ifeq (, $(shell which docker-compose))
-	DOCKER_COMPOSE_COMMAND = docker-compose
+	DOCKER_COMPOSE_COMMAND = docker compose
 else
 	DOCKER_COMPOSE_COMMAND = docker compose
 endif
@@ -102,7 +102,7 @@ lock-dependencies: build-for-dependencies
 
 ## Starts docker containers using "docker-compose up -d"
 up:
-	$(DOCKER_COMPOSE_COMMAND) up -d
+up:
 ifeq (, $(shell docker ps -a | grep $(CONTAINER_NAME)))
 	@make down
 endif
