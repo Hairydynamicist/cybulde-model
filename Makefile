@@ -22,13 +22,13 @@ PROD_SERVICE_NAME = app-prod
 PROD_CONTAINER_NAME = cybulde-model-prod-container
 
 ifeq (, $(shell which nvidia-smi))
-	PROFILE = ci
-	CONTAINER_NAME = cybulde-model-ci-container
-	SERVICE_NAME = app-ci
-else
 	PROFILE = dev
 	CONTAINER_NAME = cybulde-model-dev-container
 	SERVICE_NAME = app-dev
+else
+	PROFILE = ci
+	CONTAINER_NAME = cybulde-model-ci-container
+	SERVICE_NAME = app-ci
 endif
 
 DIRS_TO_VALIDATE = cybulde
