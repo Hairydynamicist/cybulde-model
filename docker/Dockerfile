@@ -3,7 +3,7 @@ FROM python:3.11-slim
 ARG USER_ID
 ARG USER_NAME
 ENV HOME=/home/${USER_NAME} \
-    VIRTUAL_ENV=/home/${USER_NAME}/venv
+    VIRTUAL_ENV=/home/${USER_NAME}/anaconda3/envs/dvc-env
 ENV \
   PYTHONUNBUFFERED=1 \
   DEBIAN_FRONTEND=noninteractive \
@@ -24,6 +24,9 @@ RUN mkdir -p /usr/local/gcloud \
 
 RUN addgroup --system --gid ${USER_ID} ${USER_NAME} \
     && useradd --system -m --no-log-init --home-dir ${HOME} --uid ${USER_ID} --gid ${USER_NAME} --groups ${USER_NAME} ${USER_NAME}
+
+RUN chown -R ${USER_NAME}:${USER_NAME} ${HOME}
+RUN mkdir -p /app /mlflow-artifact-store "${HOME}/.local/share" && chown -R ${USER_NAME}:${USER_NAME} /app /tmp /mlflow-artifact-store "${HOME}/.local"
 
 RUN chown -R ${USER_NAME}:${USER_NAME} ${HOME}
 RUN mkdir -p /app && chown -R ${USER_NAME}:${USER_NAME} /app /tmp
