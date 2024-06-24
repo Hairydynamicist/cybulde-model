@@ -103,6 +103,10 @@ lock-dependencies: build-for-dependencies
 ## Starts docker containers using "docker-compose up -d"
 up:
 	$(DOCKER_COMPOSE_COMMAND) up -d
+ifeq (, $(shell docker ps -a | grep $(CONTAINER_NAME)))
+	@make down
+endif
+	@$(DOCKER_COMPOSE_COMMAND) --profile $(PROFILE) up -d --remove-orphans
 
 ## docker-compose down
 down:
