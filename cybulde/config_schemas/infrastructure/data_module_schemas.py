@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from hydra.core.config_store import ConfigStore
 # from omegaconf import MISSING, SI
 #
-# from cybulde.config_schemas.models import transformation_schemas
+from cybulde.config_schemas.models import transformation_schemas
 # from cybulde.utils.mixins import LoggableParamsMixin
 #
 #
