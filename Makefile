@@ -44,6 +44,11 @@ export
 guard-%:
 	@#$(or ${$*}, $(error $* is not set))
 
+## Generate final config. for overrides use: OVERRIDES==<overrides>
+generate-final-config-local: up
+	@$(DOCKER_COMPOSE_EXEC) python cybulde/generate_final_config.py $(OVERRIDES)
+
+
 ## run tasks
 local-run-tasks: up
 	$(DOCKER_COMPOSE_EXEC) python ./cybulde/run-tasks.py
