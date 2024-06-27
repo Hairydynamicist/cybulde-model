@@ -6,13 +6,13 @@ from omegaconf import MISSING
 # from cybulde.utils.mixins import LoggableParamsMixin
 
 
-@dataclass
-class TransformationConfig(LoggableParamsMixin):
-    _target_: str = MISSING
-
-    def loggable_params(self) -> list[str]:
-        return ["_target_"]
-
+# @dataclass
+# class TransformationConfig(LoggableParamsMixin):
+#     _target_: str = MISSING
+#
+#     def loggable_params(self) -> list[str]:
+#         return ["_target_"]
+#
 
 @dataclass
 class HuggingFaceTokenizationTransformationConfig(TransformationConfig):

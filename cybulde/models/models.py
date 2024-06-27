@@ -11,10 +11,9 @@ from cybulde.models.transformations import Transformation
 
 
 class Model(nn.Module):
-    pass
-    # @abstractmethod
-    # def get_transformation(self) -> Transformation:
-    #     ...
+    @abstractmethod
+    def get_transformation(self) -> Transformation:
+        ...
 
 
 class BinaryTextClassificationModel(Model):

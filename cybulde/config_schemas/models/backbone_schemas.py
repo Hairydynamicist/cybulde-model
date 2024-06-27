@@ -2,14 +2,14 @@ from dataclasses import dataclass
 #
 from hydra.core.config_store import ConfigStore
 from omegaconf import MISSING
-#
-# from cybulde.config_schemas.models.transformation_schemas import (
-#     CustomHuggingFaceTokenizationTransformationConfig,
-#     TransformationConfig,
-# )
+
+from cybulde.config_schemas.models.transformation_schemas import (
+    CustomHuggingFaceTokenizationTransformationConfig,
+    TransformationConfig,
+)
 # from cybulde.utils.mixins import LoggableParamsMixin
-#
-#
+
+
 @dataclass
 class BackboneConfig(LoggableParamsMixin):
     _target_: str = MISSING

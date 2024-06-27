@@ -76,11 +76,11 @@ class TrainingLightningModule(LightningModule):
     def validation_step(self, batch: Any, batch_idx: int) -> Tensor:
         ...
 
-#     @abstractmethod
-#     def get_transformation(self) -> Transformation:
-#         ...
-#
-#
+    @abstractmethod
+    def get_transformation(self) -> Transformation:
+        ...
+
+
 # class ModelStateDictExportingTrainingLightningModule(TrainingLightningModule):
 #     @abstractmethod
 #     def export_model_state_dict(self, checkpoint_path: str) -> str:

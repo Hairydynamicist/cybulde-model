@@ -49,10 +49,10 @@ class DataModule(LightningDataModule):
         )
 
 
-# class PartialDataModuleType(Protocol):
-#     def __call__(self, transformation: Transformation) -> DataModule:
-#         ...
-#
+class PartialDataModuleType(Protocol):
+    def __call__(self, transformation: Transformation) -> DataModule:
+        ...
+
 
 class TextClassificationDataModule(DataModule):
     def __init__(
