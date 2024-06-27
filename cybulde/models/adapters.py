@@ -1,4 +1,4 @@
-# from operator import attrgetter
+from operator import attrgetter
 from typing import Literal, Optional
 
 import torch
