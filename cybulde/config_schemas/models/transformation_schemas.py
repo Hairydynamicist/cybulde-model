@@ -6,13 +6,13 @@ from omegaconf import MISSING
 # from cybulde.utils.mixins import LoggableParamsMixin
 
 
-# @dataclass
-# class TransformationConfig(LoggableParamsMixin):
-#     _target_: str = MISSING
-#
+@dataclass
+class TransformationConfig():   #LoggableParamsMixin was a param
+    _target_: str = MISSING
+
 #     def loggable_params(self) -> list[str]:
 #         return ["_target_"]
-#
+
 
 @dataclass
 class HuggingFaceTokenizationTransformationConfig(TransformationConfig):
@@ -24,10 +24,10 @@ class HuggingFaceTokenizationTransformationConfig(TransformationConfig):
         return super().loggable_params() + ["pretrained_tokenizer_name_or_path", "max_sequence_length"]
 
 
-# @dataclass
-# class CustomHuggingFaceTokenizationTransformationConfig(HuggingFaceTokenizationTransformationConfig):
-#     pretrained_tokenizer_name_or_path: str = "gs://emkademy/cybulde/data/processed/rebalanced_splits/trained_tokenizer"
-#     max_sequence_length: int = 200
+@dataclass
+class CustomHuggingFaceTokenizationTransformationConfig(HuggingFaceTokenizationTransformationConfig):
+    pretrained_tokenizer_name_or_path: str = "gs://jmcybulde/data/processed/default_run/trained_tokenizer"
+    max_sequence_length: int = 200
 
 
 def setup_config() -> None:
