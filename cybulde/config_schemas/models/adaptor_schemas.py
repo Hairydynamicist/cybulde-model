@@ -8,7 +8,7 @@ from omegaconf import MISSING
 
 
 @dataclass
-class AdapterConfig(LoggableParamsMixin):
+class AdapterConfig():  # original param was LoggableParamsMixin
     _target_: str = MISSING
 
     def loggable_params(self) -> list[str]:
