@@ -15,15 +15,15 @@ from cybulde.config_schemas.infrastructure.infrastructure_schema import Infrastr
 class Config:
     infrastructure: InfrastructureConfig = InfrastructureConfig()
 
-#@dataclass
-# class Config:
-#     infrastructure: infrastructure_schema.InfrastructureConfig = infrastructure_schema.InfrastructureConfig()
-#     save_last_checkpoint_every_n_train_steps: int = 500
-#     seed: int = 1234
-#     tasks: dict[str, base_schemas.TaskConfig] = MISSING
-#     model_selector: Optional[model_selector_schemas.ModelSelectorConfig] = None
-#     registered_model_name: Optional[str] = None
-#     docker_image: Optional[str] = None
+@dataclass
+class Config:
+    infrastructure: infrastructure_schema.InfrastructureConfig = infrastructure_schema.InfrastructureConfig()
+    save_last_checkpoint_every_n_train_steps: int = 500
+    # seed: int = 1234
+    # tasks: dict[str, base_schemas.TaskConfig] = MISSING
+    # model_selector: Optional[model_selector_schemas.ModelSelectorConfig] = None
+    # registered_model_name: Optional[str] = None
+    # docker_image: Optional[str] = None
 
 
 def setup_config() -> None:
