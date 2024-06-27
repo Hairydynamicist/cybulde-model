@@ -11,7 +11,7 @@ from cybulde.config_schemas.models.transformation_schemas import (
 
 
 @dataclass
-class BackboneConfig(LoggableParamsMixin):
+class BackboneConfig():  #orginally had this param: LoggableParamsMixin
     _target_: str = MISSING
     transformation: TransformationConfig = MISSING
 
@@ -29,11 +29,11 @@ class HuggingFaceBackboneConfig(BackboneConfig):
         return super().loggable_params() + ["pretrained_model_name_or_path", "pretrained"]
 
 
-# @dataclass
-# class BertTinyHuggingFaceBackboneConfig(HuggingFaceBackboneConfig):
-#     pretrained_model_name_or_path: str = "prajjwal1/bert-tiny"
-#     transformation: TransformationConfig = CustomHuggingFaceTokenizationTransformationConfig()
-#
+@dataclass
+class BertTinyHuggingFaceBackboneConfig(HuggingFaceBackboneConfig):
+    pretrained_model_name_or_path: str = "prajjwal1/bert-tiny"
+    transformation: TransformationConfig = CustomHuggingFaceTokenizationTransformationConfig()
+
 
 def setup_config() -> None:
     cs = ConfigStore.instance()
@@ -47,3 +47,4 @@ def setup_config() -> None:
         name="test_backbone_config",
         node=BertTinyHuggingFaceBackboneConfig,
     )
+
