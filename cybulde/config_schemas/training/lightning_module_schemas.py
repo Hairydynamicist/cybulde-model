@@ -7,11 +7,11 @@ from omegaconf import MISSING
 from cybulde.config_schemas.base_schemas import LightningModuleConfig
 from cybulde.config_schemas.models.model_schemas import BertTinyBinaryTextClassificationModelConfig, ModelConfig
 from cybulde.config_schemas.training import loss_schemas, optimizer_schemas, scheduler_schemas
-from cybulde.utils.mixins import LoggableParamsMixin
+# from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class TrainingLightningModuleConfig(LightningModuleConfig, LoggableParamsMixin):
+class TrainingLightningModuleConfig(LightningModuleConfig):   # LoggableParamsMixin
     _target_: str = MISSING
     model: ModelConfig = MISSING
     loss: loss_schemas.LossFunctionConfig = MISSING
@@ -47,4 +47,9 @@ def setup_config() -> None:
         name="binary_text_classification_training_lightning_module_schema",
         group="tasks/lightning_module",
         node=BinaryTextClassificationTrainingLightningModuleConfig,
+    )
+
+    cs.store(
+        name="lm_test",
+        node=CybuldeBinaryTextClassificationTrainingLightningModuleConfig,
     )

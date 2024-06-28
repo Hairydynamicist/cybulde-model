@@ -8,7 +8,7 @@ from omegaconf import MISSING
 
 
 @dataclass
-class OptimizerConfig(LoggableParamsMixin):
+class OptimizerConfig():    # LoggableParamsMixin
     _target_: str = MISSING
     _partial_: bool = True
     lr: float = MISSING

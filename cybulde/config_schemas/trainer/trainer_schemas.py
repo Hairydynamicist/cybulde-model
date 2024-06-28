@@ -3,20 +3,20 @@ from typing import Optional
 
 from hydra.core.config_store import ConfigStore
 
-from cybulde.config_schemas.trainer import callbacks_schemas, logger_schemas
-from cybulde.utils.mixins import LoggableParamsMixin
+# from cybulde.config_schemas.trainer import callbacks_schemas, logger_schemas
+# from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class TrainerConfig(LoggableParamsMixin):
+class TrainerConfig():  # LoggableParamsMixin
     _target_: str = "lightning.pytorch.trainer.trainer.Trainer"
     accelerator: str = "auto"
     strategy: str = "ddp_find_unused_parameters_true"
     devices: str = "auto"
     num_nodes: int = 1  # SI("${}")
     precision: str = "16-mixed"
-    logger: Optional[list[logger_schemas.LoggerConfig]] = field(default_factory=lambda: [])  # type: ignore
-    callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(default_factory=lambda: [])  # type: ignore
+#    logger: Optional[list[logger_schemas.LoggerConfig]] = field(default_factory=lambda: [])  # type: ignore
+#    callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(default_factory=lambda: [])  # type: ignore
     fast_dev_run: bool = False
     max_epochs: Optional[int] = None
     min_epochs: Optional[int] = None
@@ -60,16 +60,16 @@ class GPUDev(TrainerConfig):
     limit_train_batches: float = 0.01
     limit_val_batches: float = 0.01
     limit_test_batches: float = 0.01
-    logger: Optional[list[logger_schemas.LoggerConfig]] = field(
-        default_factory=lambda: [logger_schemas.MLFlowLoggerConfig()]
-    )  # type: ignore
-    callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(
-        default_factory=lambda: [
-            callbacks_schemas.ValidationF1ScoreBestModelCheckpointConfig(),
-            callbacks_schemas.LastModelCheckpointConfig(),
-            callbacks_schemas.LearningRateMonitorConfig(),
-        ]
-    )
+    # logger: Optional[list[logger_schemas.LoggerConfig]] = field(
+    #     default_factory=lambda: [logger_schemas.MLFlowLoggerConfig()]
+    # )  # type: ignore
+    # callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(
+    #     default_factory=lambda: [
+    #         callbacks_schemas.ValidationF1ScoreBestModelCheckpointConfig(),
+    #         callbacks_schemas.LastModelCheckpointConfig(),
+    #         callbacks_schemas.LearningRateMonitorConfig(),
+    #     ]
+    #)
 
 
 @dataclass
@@ -77,21 +77,21 @@ class GPUProd(TrainerConfig):
     max_epochs: int = 20
     accelerator: str = "gpu"
     log_every_n_steps: int = 20
-    logger: Optional[list[logger_schemas.LoggerConfig]] = field(
-        default_factory=lambda: [logger_schemas.MLFlowLoggerConfig()]
-    )  # type: ignore
-    callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(
-        default_factory=lambda: [
-            callbacks_schemas.ValidationF1ScoreBestModelCheckpointConfig(),
-            callbacks_schemas.LastModelCheckpointConfig(),
-            callbacks_schemas.LearningRateMonitorConfig(),
-        ]
-    )
+    # logger: Optional[list[logger_schemas.LoggerConfig]] = field(
+    #     default_factory=lambda: [logger_schemas.MLFlowLoggerConfig()]
+    # )  # type: ignore
+    # callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(
+    #     default_factory=lambda: [
+    #         callbacks_schemas.ValidationF1ScoreBestModelCheckpointConfig(),
+    #         callbacks_schemas.LastModelCheckpointConfig(),
+    #         callbacks_schemas.LearningRateMonitorConfig(),
+    #     ]
+    # )
 
 
 def setup_config() -> None:
-    logger_schemas.setup_config()
-    callbacks_schemas.setup_config()
+    # logger_schemas.setup_config()
+    # callbacks_schemas.setup_config()
 
     cs = ConfigStore.instance()
     cs.store(name="trainer_schema", group="tasks/trainer", node=TrainerConfig)

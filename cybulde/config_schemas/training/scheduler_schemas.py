@@ -8,7 +8,7 @@ from omegaconf import MISSING
 
 
 @dataclass
-class SchedulerConfig(LoggableParamsMixin):
+class SchedulerConfig():    # LoggableParamsMixin
     _target_: str = MISSING
     _partial_: bool = True
 
