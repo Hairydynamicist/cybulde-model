@@ -28,7 +28,7 @@ class CommonTrainingTaskConfig(TrainingTaskConfig):
 @dataclass
 class DefaultCommonTrainingTaskConfig(TarModelExportingTrainingTaskConfig):
     _target_: str = "cybulde.training.tasks.tar_model_exporting_training_task.TarModelExportingTrainingTask"
-    name: str = "binary_text_classfication_task"
+    name: str = "binary_text_classification_task"
     data_module: data_module_schemas.DataModuleConfig = (
         data_module_schemas.ScrappedDataTextClassificationDataModuleConfig()
     )
@@ -48,4 +48,9 @@ def setup_config() -> None:
         name="common_training_task_schema",
         group="tasks",
         node=CommonTrainingTaskConfig,
+    )
+
+    cs.store(
+        name="test_training_task",
+        node=DefaultCommonTrainingTaskConfig
     )

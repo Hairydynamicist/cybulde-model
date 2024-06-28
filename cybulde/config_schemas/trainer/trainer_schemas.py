@@ -3,7 +3,7 @@ from typing import Optional
 
 from hydra.core.config_store import ConfigStore
 
-# from cybulde.config_schemas.trainer import callbacks_schemas, logger_schemas
+from cybulde.config_schemas.trainer import callbacks_schemas, logger_schemas
 # from cybulde.utils.mixins import LoggableParamsMixin
 
 
@@ -60,16 +60,16 @@ class GPUDev(TrainerConfig):
     limit_train_batches: float = 0.01
     limit_val_batches: float = 0.01
     limit_test_batches: float = 0.01
-    # logger: Optional[list[logger_schemas.LoggerConfig]] = field(
-    #     default_factory=lambda: [logger_schemas.MLFlowLoggerConfig()]
-    # )  # type: ignore
-    # callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(
-    #     default_factory=lambda: [
-    #         callbacks_schemas.ValidationF1ScoreBestModelCheckpointConfig(),
-    #         callbacks_schemas.LastModelCheckpointConfig(),
-    #         callbacks_schemas.LearningRateMonitorConfig(),
-    #     ]
-    #)
+    logger: Optional[list[logger_schemas.LoggerConfig]] = field(
+        default_factory=lambda: [logger_schemas.MLFlowLoggerConfig()]
+    )  # type: ignore
+    callbacks: Optional[list[callbacks_schemas.CallbackConfig]] = field(
+        default_factory=lambda: [
+            callbacks_schemas.ValidationF1ScoreBestModelCheckpointConfig(),
+            callbacks_schemas.LastModelCheckpointConfig(),
+            callbacks_schemas.LearningRateMonitorConfig(),
+        ]
+    )
 
 
 @dataclass

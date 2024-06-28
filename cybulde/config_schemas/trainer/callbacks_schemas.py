@@ -37,11 +37,11 @@ class BestModelCheckpointConfig(ModelCheckpointConfig):
     mode: str = MISSING
 
 
-# @dataclass
-# class ValidationF1ScoreBestModelCheckpointConfig(BestModelCheckpointConfig):
-#     monitor: str = "validation_f1_score"
-#     mode: str = "max"
-#
+@dataclass
+class ValidationF1ScoreBestModelCheckpointConfig(BestModelCheckpointConfig):
+    monitor: str = "validation_f1_score"
+    mode: str = "max"
+
 
 @dataclass
 class LastModelCheckpointConfig(ModelCheckpointConfig):
