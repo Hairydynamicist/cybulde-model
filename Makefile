@@ -51,7 +51,7 @@ generate-final-config-local: up
 
 ## run tasks
 local-run-tasks: up
-	$(DOCKER_COMPOSE_EXEC) python ./cybulde/run-tasks.py
+	$(DOCKER_COMPOSE_EXEC) python ./cybulde/run_tasks.py
 
 ## Starts jupyter lab
 notebook: up

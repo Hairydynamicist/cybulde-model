@@ -10,8 +10,9 @@ from cybulde.utils.utils import get_logger
 
 
 @get_config(
-    config_path="../configs/automatically_generated", config_name="config", to_object=False, return_dict_config=True
-)
+    config_path="../configs/automatically_generated",
+    config_name="config", to_object=False
+)   # , return_dict_config=True
 def run_tasks(config: Config) -> None:
     logger = get_logger(__file__)
     assert config.infrastructure.mlflow.run_id is not None, "Run id has to be set for running tasks"

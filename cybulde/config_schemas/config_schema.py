@@ -5,7 +5,7 @@ from omegaconf import MISSING
 from pydantic.dataclasses import dataclass
 
 from cybulde.config_schemas import base_schemas
-from cybulde.config_schemas.evaluation import evaluation_task_schemas, model_selector_schemas
+# from cybulde.config_schemas.evaluation import evaluation_task_schemas, model_selector_schemas
 
 from cybulde.config_schemas.infrastructure.infrastructure_schema import InfrastructureConfig
 from cybulde.config_schemas.training import training_task_schemas
@@ -21,7 +21,7 @@ class Config:
 class Config:
     infrastructure: infrastructure_schema.InfrastructureConfig = infrastructure_schema.InfrastructureConfig()
     save_last_checkpoint_every_n_train_steps: int = 500
-     seed: int = 1234
+    seed: int = 1234
     # tasks: dict[str, base_schemas.TaskConfig] = MISSING
     # model_selector: Optional[model_selector_schemas.ModelSelectorConfig] = None
     # registered_model_name: Optional[str] = None
