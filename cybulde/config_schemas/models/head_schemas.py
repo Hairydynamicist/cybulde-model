@@ -3,11 +3,11 @@ from dataclasses import dataclass
 from hydra.core.config_store import ConfigStore
 from omegaconf import MISSING
 
-#from cybulde.utils.mixins import LoggableParamsMixin
+from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class HeadConfig():  #originally param was LoggableParamsMixin
+class HeadConfig(LoggableParamsMixin):
     _target_: str = MISSING
 
     def loggable_params(self) -> list[str]:

@@ -28,7 +28,7 @@ def get_config(
                 config = OmegaConf.to_object(dict_config)
 
             if not return_dict_config:
-                assert to_object
+                # assert to_object
                 return task_function(config)
             return task_function(dict_config)
 

@@ -4,11 +4,11 @@ from typing import Optional
 from hydra.core.config_store import ConfigStore
 from omegaconf import MISSING
 
-# from cybulde.utils.mixins import LoggableParamsMixin
+from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class AdapterConfig():  # original param was LoggableParamsMixin
+class AdapterConfig(LoggableParamsMixin):
     _target_: str = MISSING
 
     def loggable_params(self) -> list[str]:

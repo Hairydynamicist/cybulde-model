@@ -4,11 +4,11 @@ from omegaconf import MISSING
 
 from cybulde.config_schemas.data_module_schemas import DataModuleConfig
 from cybulde.config_schemas.trainer.trainer_schemas import TrainerConfig
-# from cybulde.utils.mixins import LoggableParamsMixin
+from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class LightningModuleConfig():  #LoggableParamsMixin
+class LightningModuleConfig(LoggableParamsMixin):
     _target_: str = MISSING
 
 

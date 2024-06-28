@@ -7,11 +7,11 @@ from cybulde.config_schemas.models.transformation_schemas import (
     CustomHuggingFaceTokenizationTransformationConfig,
     TransformationConfig,
 )
-# from cybulde.utils.mixins import LoggableParamsMixin
+from cybulde.utils.mixins import LoggableParamsMixin
 
 
 @dataclass
-class BackboneConfig():  #orginally had this param: LoggableParamsMixin
+class BackboneConfig(LoggableParamsMixin):
     _target_: str = MISSING
     transformation: TransformationConfig = MISSING
 
