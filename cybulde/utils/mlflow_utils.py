@@ -10,7 +10,7 @@ from mlflow.pyfunc import PythonModel
 from mlflow.tracking.fluent import ActiveRun
 
 from cybulde.config_schemas.infrastructure.infrastructure_schema import MLFlowConfig
-#from cybulde.utils.mixins import LoggableParamsMixin
+from cybulde.utils.mixins import LoggableParamsMixin
 
 MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI")
 

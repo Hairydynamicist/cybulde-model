@@ -33,5 +33,5 @@ def setup_config() -> None:
     cs.store(
         name="infrastructure_schema",
         group="infrastructure",
-        node=InfrastructureConfig,
+        node=InfrastructureConfig
     )

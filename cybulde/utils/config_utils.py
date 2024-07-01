@@ -14,6 +14,9 @@ from omegaconf import DictConfig, OmegaConf
 from cybulde.config_schemas import config_schema
 from cybulde.utils.io_utils import open_file
 
+if TYPE_CHECKING:
+    from cybulde.config_schemas.config_schema import Config
+
 
 def get_config(
     config_path: str, config_name: str, to_object: bool = True, return_dict_config: bool = False
@@ -28,7 +31,7 @@ def get_config(
                 config = OmegaConf.to_object(dict_config)
 
             if not return_dict_config:
-                # assert to_object
+                assert to_object
                 return task_function(config)
             return task_function(dict_config)
 
