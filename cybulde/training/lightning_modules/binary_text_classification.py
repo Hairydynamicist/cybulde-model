@@ -42,9 +42,9 @@ class BinaryTextClassificationTrainingLightningModule(ModelStateDictExportingTra
         self.validation_step_outputs: dict[str, list[Tensor]] = defaultdict(list)
 
         self.pos_weight: Optional[Tensor] = None
-#
-#     def set_pos_weight(self, pos_weight: Tensor) -> None:
-#         self.pos_weight = pos_weight
+
+    def set_pos_weight(self, pos_weight: Tensor) -> None:
+        self.pos_weight = pos_weight
 
     def forward(self, texts: BatchEncoding) -> Tensor:
         output: Tensor = self.model(texts)

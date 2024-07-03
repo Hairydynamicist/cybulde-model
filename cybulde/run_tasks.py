@@ -15,11 +15,6 @@ from cybulde.utils.utils import get_logger
     config_name="config", to_object=False, return_dict_config=True
 )
 def run_tasks(config: Config) -> None:
-    print(60*"#")
-    print(OmegaConf.to_yaml(config))
-    print(60*"#")
-    exit(0)
-
     logger = get_logger(__file__)
     assert config.infrastructure.mlflow.run_id is not None, "Run id has to be set for running tasks"
 

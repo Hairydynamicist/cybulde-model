@@ -3,9 +3,9 @@ from typing import TYPE_CHECKING
 
 import mlflow
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 
-from cybulde.utils.config_utils import get_config, get_config_and_dict_config, save_config_as_yaml
+from cybulde.utils.config_utils import get_config_and_dict_config, save_config_as_yaml
 from cybulde.utils.mlflow_utils import activate_mlflow, log_artifacts_for_reproducibility, log_training_hparams
 
 if TYPE_CHECKING:

@@ -25,22 +25,22 @@ class CommonEvaluationTaskConfig(TarModelEvaluationTaskConfig):
     _target_: str = "cybulde.evaluation.tasks.common_evaluation_task.CommonEvaluationTask"
 
 
-# @dataclass
-# class DefaultCommonEvaluationTaskConfig(CommonEvaluationTaskConfig):
-#     name: str = "binary_text_evaluation_task"
-#     lightning_module: evaluation_lightning_module_schemas.PartialEvaluationLightningModuleConfig = (
-#         evaluation_lightning_module_schemas.BinaryTextEvaluationLightningModuleConfig()
-#     )
-#
-#
-# def setup_config() -> None:
-#     data_module_schemas.setup_config()
-#     evaluation_lightning_module_schemas.setup_config()
-#     trainer_schemas.setup_config()
-#
-#     cs = ConfigStore.instance()
-#     cs.store(
-#         name="common_evaluation_task_schema",
-#         group="tasks",
-#         node=CommonEvaluationTaskConfig,
-#     )
+@dataclass
+class DefaultCommonEvaluationTaskConfig(CommonEvaluationTaskConfig):
+    name: str = "binary_text_evaluation_task"
+    lightning_module: evaluation_lightning_module_schemas.PartialEvaluationLightningModuleConfig = (
+        evaluation_lightning_module_schemas.BinaryTextEvaluationLightningModuleConfig()
+    )
+
+
+def setup_config() -> None:
+    data_module_schemas.setup_config()
+    evaluation_lightning_module_schemas.setup_config()
+    trainer_schemas.setup_config()
+
+    cs = ConfigStore.instance()
+    cs.store(
+        name="common_evaluation_task_schema",
+        group="tasks",
+        node=CommonEvaluationTaskConfig,
+    )

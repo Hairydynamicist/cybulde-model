@@ -48,8 +48,7 @@ def setup_config() -> None:
 
     cs = ConfigStore.instance()
     cs.store(
-        name="test_data_module",
-        #name="text_classification_data_module_schema",
-        #group="tasks/data_module",
+        name="text_classification_data_module_schema",
+        group="tasks/data_module",
         node=ScrappedDataTextClassificationDataModuleConfig
     )
