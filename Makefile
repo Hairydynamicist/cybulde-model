@@ -20,15 +20,16 @@ endif
 
 PROD_SERVICE_NAME = app-prod
 PROD_CONTAINER_NAME = cybulde-model-prod-container
+PROD_PROFILE_NAME = prod
 
 ifeq (, $(shell which nvidia-smi))
-	PROFILE = dev
-	CONTAINER_NAME = cybulde-model-dev-container
-	SERVICE_NAME = app-dev
-else
 	PROFILE = ci
 	CONTAINER_NAME = cybulde-model-ci-container
 	SERVICE_NAME = app-ci
+else
+	PROFILE = dev
+	CONTAINER_NAME = cybulde-model-dev-container
+	SERVICE_NAME = app-dev
 endif
 
 DIRS_TO_VALIDATE = cybulde
@@ -38,20 +39,27 @@ DOCKER_COMPOSE_EXEC = $(DOCKER_COMPOSE_COMMAND) exec $(SERVICE_NAME)
 DOCKER_COMPOSE_RUN_PROD = $(DOCKER_COMPOSE_COMMAND) run --rm $(PROD_SERVICE_NAME)
 DOCKER_COMPOSE_EXEC_PROD = $(DOCKER_COMPOSE_COMMAND) exec $(PROD_SERVICE_NAME)
 
-export
+IMAGE_TAG := $(shell echo "train-$$(uuidgen)")
 
 # Returns true if the stem is a non-empty environment variable, or else raises an error.
 guard-%:
 	@#$(or ${$*}, $(error $* is not set))
 
-## Generate final config. for overrides use: OVERRIDES==<overrides>
-generate-final-config-local: up
-	@$(DOCKER_COMPOSE_EXEC) python cybulde/generate_final_config.py $(OVERRIDES)
+## Generate final config. For overrides use: OVERRIDES=<overrides>
+generate-final-config: up-prod
+	@$(DOCKER_COMPOSE_EXEC_PROD) python cybulde/generate_final_config.py docker_image=${GCP_DOCKER_REGISTRY_URL}:${IMAGE_TAG} ${OVERRIDES}
 
+## Generate final config local. For overrides use: OVERRIDES=<overrides>
+local-generate-final-config: up
+	@$(DOCKER_COMPOSE_EXEC) python cybulde/generate_final_config.py ${OVERRIDES}
 
 ## run tasks
-local-run-tasks: up
-	$(DOCKER_COMPOSE_EXEC) torchrun ./cybulde/run_tasks.py
+run-tasks: generate-final-config push
+	$(DOCKER_COMPOSE_EXEC_PROD) python cybulde/launch_job_on_gcp.py
+
+## Local run tasks
+local-run-tasks: local-generate-final-config
+	$(DOCKER_COMPOSE_EXEC) torchrun cybulde/run_tasks.py
 
 ## Starts jupyter lab
 notebook: up
@@ -90,7 +98,7 @@ test: up
 
 ## Perform a full check
 full-check: lint check-type-annotations
-	$(DOCKER_COMPOSE_EXEC) pytest --cov --cov-report xml --verbose
+	$(DOCKER_COMPOSE_EXEC) pytesta --cov --cov-report xml --verbose
 
 ## Builds docker image
 build:
@@ -107,11 +115,17 @@ lock-dependencies: build-for-dependencies
 
 ## Starts docker containers using "docker-compose up -d"
 up:
-up:
 ifeq (, $(shell docker ps -a | grep $(CONTAINER_NAME)))
 	@make down
 endif
 	@$(DOCKER_COMPOSE_COMMAND) --profile $(PROFILE) up -d --remove-orphans
+
+## Starts prod docker containers
+up-prod:
+ifeq (, $(shell docker ps -a | grep $(PROD_CONTAINER_NAME)))
+	@make down
+endif
+	@$(DOCKER_COMPOSE_COMMAND) --profile $(PROD_PROFILE_NAME) up -d --remove-orphans
 
 ## docker-compose down
 down:
@@ -120,6 +134,24 @@ down:
 ## Open an interactive shell in docker container
 exec-in: up
 	docker exec -it $(CONTAINER_NAME) bash
+
+push: guard-IMAGE_TAG build
+	@gcloud auth configure-docker --quiet europe-west4-docker.pkg.dev
+	@docker tag "$${DOCKER_IMAGE_NAME}:latest" "$${GCP_DOCKER_REGISTRY_URL}:$${IMAGE_TAG}"
+	@docker push "$${GCP_DOCKER_REGISTRY_URL}:$${IMAGE_TAG}"
+
+## Run ssh tunnel for MLFlow
+mlflow-ssh-tunnel:
+	gcloud compute ssh "$${VM_NAME}" --zone "$${ZONE}" --tunnel-through-iap -- -N -L "$${PROD_MLFLOW_SERVER_PORT}:localhost:$${PROD_MLFLOW_SERVER_PORT}"
+
+## Clean MLFlow volumes
+clean-mlflow-volumes: down
+	docker volume rm cybulde-model_postgresql-mlflow-data cybulde-model_mlflow-artifact-store
+
+## Deploy etcd server on GCE
+deploy-etcd-server:
+	chmod +x ./scripts/deploy-etcd-server.sh
+	./scripts/deploy-etcd-server.sh
 
 .DEFAULT_GOAL := help
 
@@ -177,4 +209,3 @@ help:
 		printf "\n"; \
 	}' \
 	| more $(shell test $(shell uname) = Darwin && echo '--no-init --raw-control-chars')
-

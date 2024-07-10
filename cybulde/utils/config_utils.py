@@ -1,18 +1,20 @@
-from typing import Any, Optional
-import yaml
 import logging
 import logging.config
 import sys
-from typing import TYPE_CHECKING, Any, Optional, Union
+
 from io import StringIO
 from pathlib import Path
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import hydra
+import yaml
+
+from hydra import compose, initialize
 from hydra.types import TaskFunction
 from omegaconf import DictConfig, OmegaConf
 
 from cybulde.config_schemas import config_schema
-from cybulde.utils.io_utils import open_file
+from cybulde.utils.io_utils import open_file, write_yaml_file
 
 if TYPE_CHECKING:
     from cybulde.config_schemas.config_schema import Config
@@ -40,6 +42,21 @@ def get_config(
     return main_decorator
 
 
+def get_config_and_dict_config(config_path: str, config_name: str) -> Any:
+    setup_config()
+    setup_logger()
+
+    def main_decorator(task_function: Any) -> Any:
+        @hydra.main(config_path=config_path, config_name=config_name, version_base=None)
+        def decorated_main(dict_config: Optional[DictConfig] = None) -> Any:
+            config = OmegaConf.to_object(dict_config)
+            return task_function(config, dict_config)
+
+        return decorated_main
+
+    return main_decorator
+
+
 def setup_config() -> None:
     config_schema.setup_config()
 
@@ -49,9 +66,6 @@ def setup_logger() -> None:
         config = yaml.load(stream, Loader=yaml.FullLoader)
     logging.config.dictConfig(config)
 
-
-def get_config_and_dict_config():
-    return None
 
 def save_config_as_yaml(config: Union["Config", DictConfig], save_path: str) -> None:
     text_io = StringIO()
@@ -71,6 +85,7 @@ def save_config_as_yaml(config: Union["Config", DictConfig], save_path: str) -> 
     with open_file(save_path, "w") as f:
         f.write(text_io.getvalue())
 
+
 def load_config_header() -> str:
     config_header_path = Path("./cybulde/configs/automatically_generated/full_config_header.yaml")
     if not config_header_path.exists():
@@ -87,6 +102,7 @@ def load_config_header() -> str:
 
     with open(config_header_path, "r") as f:
         return f.read()
+
 
 def load_config(config_path: str, config_name: str, overrides: Optional[list[str]] = None) -> Any:
     setup_config()

@@ -1,6 +1,6 @@
 GCP_PROJECT_ID=cybuldeproject
 GCP_ARTIFACT_REGISTRY_REPOSITORY_NAME=cybulde
-VM_NAME=cybulde-vm
+VM_NAME=cybuldeproject-mlflow
 ZONE=europe-west4-a
 DOCKER_IMAGE_NAME=cybulde-model
 GCP_DOCKER_REGISTRY_URL=europe-west4-docker.pkg.dev/${GCP_PROJECT_ID}/${GCP_ARTIFACT_REGISTRY_REPOSITORY_NAME}/${DOCKER_IMAGE_NAME}
