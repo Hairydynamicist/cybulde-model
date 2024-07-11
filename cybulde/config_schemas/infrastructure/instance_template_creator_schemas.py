@@ -45,12 +45,12 @@ class InstanceTemplateCreatorConfig:
             "https://www.googleapis.com/auth/cloudruntimeconfig",
         ]
     )
-    network: str = "https://www.googleapis.com/compute/v1/projects/cybulde/global/networks/default"
-    subnetwork: str = "https://www.googleapis.com/compute/v1/projects/cybulde/regions/europe-west4/subnetworks/default"
+    network: str = "https://www.googleapis.com/compute/v1/projects/cybuldeproject/global/networks/default"
+    subnetwork: str = "https://www.googleapis.com/compute/v1/projects/cybuldeproject/regions/europe-west4/subnetworks/default"
     startup_script_path: str = "scripts/vm_startup/task_runner_startup_script.sh"
     vm_config: VMConfig = VMConfig()
     boot_disk_config: BootDiskConfig = BootDiskConfig()
     vm_metadata_config: VMMetadataConfig = VMMetadataConfig()
     template_name: str = SI("${infrastructure.instance_group_creator.name}")
     project_id: str = SI("${infrastructure.project_id}")
-    labels: dict[str, str] = field(default_factory=lambda: {"project": "cybulde"})
+    labels: dict[str, str] = field(default_factory=lambda: {"project": "cybuldeproject"})
